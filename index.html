@@ -1291,14 +1291,14 @@
        풀스크린(#hellOpeningCinematic) 은 3초 reveal + 친구들 5종 + 회전하는 지옥문. -->
   <div id="hellPrologueModal" class="modal hidden" style="z-index:1050;">
     <div class="card" style="max-width:420px;text-align:center;background:linear-gradient(180deg,rgba(40,8,8,.96),rgba(15,2,2,.98));border-color:#FF6B6B;">
-      <h2 style="color:#FF6B6B;text-shadow:0 0 18px rgba(255,107,107,.85);">🔥 원정 Ⅳ — 지옥 구출 원정</h2>
+      <h2 style="color:#FF6B6B;text-shadow:0 0 18px rgba(255,107,107,.85);" data-i18n="hell.title">🔥 원정 Ⅳ — 지옥 구출 원정</h2>
       <canvas id="hellPrologueCanvas" width="360" height="180" style="display:block;margin:10px auto;background:radial-gradient(circle at 50% 60%, rgba(255,107,107,.4) 0%, rgba(20,5,5,.95) 70%);border-radius:12px;border:2px solid #C92A2A;"></canvas>
       <div style="font-size:13px;color:#FFE066;font-weight:700;line-height:1.6;margin:6px 0 14px;">
-        우주의 끝에 다다른 그날, 비둘기 가족은 깨달았다.<br>
-        <span style="color:#FFB4D8;">"우리가 정복한 모든 별의 친구들이 지옥에서 울고 있다…"</span><br>
-        <span style="color:#A5D8FF;">억울하게 끌려간 친구들을 구하러,<br>가족은 또다시 원정을 떠난다.</span>
+        <span data-i18n="hell.body1">우주의 끝에 다다른 그날, 비둘기 가족은 깨달았다.</span><br>
+        <span style="color:#FFB4D8;" data-i18n="hell.body2">"우리가 정복한 모든 별의 친구들이 지옥에서 울고 있다…"</span><br>
+        <span style="color:#A5D8FF;" data-i18n-html="hell.body3">억울하게 끌려간 친구들을 구하러,<br>가족은 또다시 원정을 떠난다.</span>
       </div>
-      <button class="btn" id="hellPrologueCloseBtn" style="width:100%;background:linear-gradient(180deg,#FF6B6B,#7A0F0F);">▶ 지옥문 통과</button>
+      <button class="btn" id="hellPrologueCloseBtn" data-i18n="hell.cta" style="width:100%;background:linear-gradient(180deg,#FF6B6B,#7A0F0F);">▶ 지옥문 통과</button>
     </div>
   </div>
 
@@ -1338,7 +1338,7 @@
         <button class="btn" id="vAgainBtn" data-i18n="vict.again" style="flex:1;min-width:140px;">🔁 처음부터 다시</button>
         <!-- v12.18 — replay-mode 전용 back 버튼 (사용자 "엔딩 다시보기 뒤로가기 버튼 없음"). -->
         <button class="btn" id="vBackBtn">🔙 챕터 선택으로</button>
-        <button class="btn alt" id="vHomeBtn" style="flex:1;min-width:140px;">🏠 홈으로</button>
+        <button class="btn alt" id="vHomeBtn" data-i18n="cc.home" style="flex:1;min-width:140px;">🏠 홈으로</button>
       </div>
     </div>
   </div>
@@ -7209,11 +7209,11 @@ function getPigeonHungerState(){
 // Combat stat multipliers/additions for the current hunger state.
 function getPigeonStatMods(){
   switch(getPigeonHungerState()){
-    case 'glow':     return { dmg:1.20, hp:+20, rate:1.10, label:'전설적 ✨', color:'#FFE066' };
-    case 'boosted':  return { dmg:1.10, hp:+10, rate:1.05, label:'기운 넘침 ⚡',  color:'#74C0FC' };
-    case 'starving': return { dmg:0.65, hp:-20, rate:0.90, label:'굶주림 💀',    color:'#868E96' };
-    case 'hungry':   return { dmg:0.85, hp:-10, rate:1.00, label:'배고픔 😣',    color:'#FFA94D' };
-    default:         return { dmg:1.00, hp:  0, rate:1.00, label:'정상 🙂',      color:'#51CF66' };
+    case 'glow':     return { dmg:1.20, hp:+20, rate:1.10, label:L('전설적 ✨','Legendary ✨'), color:'#FFE066' };
+    case 'boosted':  return { dmg:1.10, hp:+10, rate:1.05, label:L('기운 넘침 ⚡','Energized ⚡'), color:'#74C0FC' };
+    case 'starving': return { dmg:0.65, hp:-20, rate:0.90, label:L('굶주림 💀','Starving 💀'),  color:'#868E96' };
+    case 'hungry':   return { dmg:0.85, hp:-10, rate:1.00, label:L('배고픔 😣','Hungry 😣'),    color:'#FFA94D' };
+    default:         return { dmg:1.00, hp:  0, rate:1.00, label:L('정상 🙂','Normal 🙂'),      color:'#51CF66' };
   }
 }
 
@@ -11883,25 +11883,26 @@ function continueAfterSetIntro(){
 function showChapterRewardModal(eq){
   const def = COSTUME_DEFS_BY_ID[eq.defId]; if(!def) return;
   const g = COSTUME_GRADES[eq.grade];
-  const slotLabel = { head:'머리', body:'몸통', weapon:'무기' }[def.slot];
+  const slotLabel = L({ head:'머리', body:'몸통', weapon:'무기' }[def.slot], { head:'Head', body:'Body', weapon:'Weapon' }[def.slot]);
   const cur = getEquippedForSlot(def.slot);
   const isUpgrade = isCostumeBetterThanEquipped(eq);
   const isSameOrWorse = !!cur && !isUpgrade;
   // Comparison block — show "vs. 현재 착용" so the player can judge at a glance whether to swap.
   const upgradeBadge = (cur && isUpgrade)
-    ? `<div style="background:linear-gradient(180deg,#FFE066,#F08C00);color:#5A1A04;font-weight:900;border:2px solid #fff;border-radius:999px;padding:4px 14px;display:inline-block;font-size:13px;letter-spacing:.5px;box-shadow:0 0 18px rgba(255,212,59,.7);animation:pulseUpgrade 1.1s ease-in-out infinite;">★ 더 강한 코스튬! 업그레이드 ★</div>`
-    : (!cur ? `<div style="background:rgba(81,207,102,.18);color:#A9E34B;font-weight:900;border:2px dashed #A9E34B;border-radius:10px;padding:4px 12px;display:inline-block;font-size:12px;">현재 ${slotLabel} 슬롯 비어있음</div>`
-            : `<div style="background:rgba(134,142,150,.18);color:#CED4DA;font-weight:700;border:1px solid #495057;border-radius:10px;padding:4px 12px;display:inline-block;font-size:12px;">현재 착용 코스튬이 더 강해요</div>`);
+    ? `<div style="background:linear-gradient(180deg,#FFE066,#F08C00);color:#5A1A04;font-weight:900;border:2px solid #fff;border-radius:999px;padding:4px 14px;display:inline-block;font-size:13px;letter-spacing:.5px;box-shadow:0 0 18px rgba(255,212,59,.7);animation:pulseUpgrade 1.1s ease-in-out infinite;">${L('★ 더 강한 코스튬! 업그레이드 ★','★ Stronger Costume! Upgrade ★')}</div>`
+    : (!cur ? `<div style="background:rgba(81,207,102,.18);color:#A9E34B;font-weight:900;border:2px dashed #A9E34B;border-radius:10px;padding:4px 12px;display:inline-block;font-size:12px;">${L(`현재 ${slotLabel} 슬롯 비어있음`,`${slotLabel} slot is empty`)}</div>`
+            : `<div style="background:rgba(134,142,150,.18);color:#CED4DA;font-weight:700;border:1px solid #495057;border-radius:10px;padding:4px 12px;display:inline-block;font-size:12px;">${L('현재 착용 코스튬이 더 강해요','Currently equipped costume is stronger')}</div>`);
   const compareLine = cur
-    ? `<div style="margin:6px 0 4px;font-size:11px;color:#868E96;font-weight:700;letter-spacing:.5px;">현재 착용: ${COSTUME_DEFS_BY_ID[cur.defId].name} (${cur.grade}) · ${costumeStatLines(cur)}</div>`
+    ? `<div style="margin:6px 0 4px;font-size:11px;color:#868E96;font-weight:700;letter-spacing:.5px;">${L(`현재 착용: ${nameOf(COSTUME_DEFS_BY_ID[cur.defId])} (${cur.grade}) · ${costumeStatLines(cur)}`,`Currently wearing: ${nameOf(COSTUME_DEFS_BY_ID[cur.defId])} (${cur.grade}) · ${costumeStatLines(cur)}`)}</div>`
     : '';
   const reveal = document.getElementById('crmReveal');
+  const gradeLabel = eq.grade === 'S' ? L('✨ S 등급! ✨','✨ S grade! ✨') : eq.grade === 'A' ? L('⭐ A 등급!','⭐ A grade!') : eq.grade === 'B' ? L('🔵 B 등급','🔵 B grade') : L('⚪ C 등급','⚪ C grade');
   reveal.innerHTML = `
-    <div class="pull-title">${eq.grade === 'S' ? '✨ S 등급! ✨' : eq.grade === 'A' ? '⭐ A 등급!' : eq.grade === 'B' ? '🔵 B 등급' : '⚪ C 등급'}</div>
+    <div class="pull-title">${gradeLabel}</div>
     <div class="pull-card" style="border-color:${g.color};box-shadow:0 0 30px ${g.color}aa;">
       <div class="pc-grade ${g.borderClass}" style="background:${g.color};border-color:#fff;">${g.label}</div>
       <div class="pc-icon"><canvas></canvas></div>
-      <div class="pc-name">${def.name}</div>
+      <div class="pc-name">${nameOf(def)}</div>
       <div class="pc-slot">${slotLabel}</div>
     </div>
     <div class="pull-stats">${costumeStatLines(eq)}</div>
@@ -11912,9 +11913,9 @@ function showChapterRewardModal(eq){
   // Adjust the equip-button label so the action matches the recommendation.
   const equipBtn = document.getElementById('crmEquipBtn');
   if(equipBtn){
-    if(cur && isUpgrade) equipBtn.textContent = '✨ 갈아 입기 (업그레이드)';
-    else if(!cur) equipBtn.textContent = '✨ 착용하기';
-    else equipBtn.textContent = '⚠ 그래도 착용';
+    if(cur && isUpgrade) equipBtn.textContent = T('btn.swap');
+    else if(!cur) equipBtn.textContent = T('btn.equipNow');
+    else equipBtn.textContent = T('btn.equipAnyway');
   }
   // Suppress unused-var warning when the worse branch is hit; readability over micro-optim.
   void isSameOrWorse;
@@ -15972,13 +15973,14 @@ document.getElementById('combineBtn').addEventListener('click', () => {
   }
   // 미리보기 노출
   document.getElementById('cpmGradeText').innerHTML =
-    `<b style="color:#FFD43B;">${grade}×3</b> → <b style="color:#FA5252;">${next}</b> 등급 1장`;
-  const slotLabel = { head:'머리', body:'몸통', weapon:'무기' };
+    L(`<b style="color:#FFD43B;">${grade}×3</b> → <b style="color:#FA5252;">${next}</b> 등급 1장`,
+      `<b style="color:#FFD43B;">${grade}×3</b> → <b style="color:#FA5252;">${next}</b> grade ×1`);
+  const slotLabel = L({ head:'머리', body:'몸통', weapon:'무기' }, { head:'Head', body:'Body', weapon:'Weapon' });
   const consumeListEl = document.getElementById('cpmConsumeList');
   consumeListEl.innerHTML = candidates.map((c, i) => {
     const def = COSTUME_DEFS_BY_ID[c.defId];
     if(!def) return '';
-    return `<div>${i+1}. ${def.icon} <b>${def.name}</b> · ${slotLabel[def.slot] || ''} · <span style="color:#FFE066;">${grade} 등급</span></div>`;
+    return `<div>${i+1}. ${def.icon} <b>${nameOf(def)}</b> · ${slotLabel[def.slot] || ''} · <span style="color:#FFE066;">${grade} ${L('등급','grade')}</span></div>`;
   }).join('');
   document.getElementById('combinePreviewModal').classList.remove('hidden');
   // 확정/취소 핸들러는 한 번만 등록되어 있음 (밑에).
@@ -16000,8 +16002,8 @@ document.getElementById('combineConfirmBtn').addEventListener('click', () => {
     const def = COSTUME_DEFS_BY_ID[result.defId];
     const g = COSTUME_GRADES[result.grade];
     state.toastBanner = {
-      text:`✨ ${grade}×3 → ${result.grade} 합성!`,
-      sub:`${def.icon} ${def.name} (${g.label})`,
+      text:L(`✨ ${grade}×3 → ${result.grade} 합성!`,`✨ ${grade}×3 → ${result.grade} combined!`),
+      sub:`${def.icon} ${nameOf(def)} (${g.label})`,
       t:2.4, maxT:2.4, tone:'critical'
     };
     sfxLevelUp();
@@ -16224,6 +16226,14 @@ function updateTitleCoinDisplay(){
 // Format hours since fed as "Nh Mm 전" or "방금" — used in the feed modal status block.
 function formatTimeSince(ms){
   const sec = Math.max(0, Math.floor(ms/1000));
+  if(getLang() === 'en'){
+    if(sec < 60) return 'just now (' + sec + 's ago)';
+    const min = Math.floor(sec/60);
+    if(min < 60) return min + ' min ago';
+    const hr = Math.floor(min/60);
+    const remMin = min - hr*60;
+    return hr + 'h' + (remMin ? ' ' + remMin + 'm' : '') + ' ago';
+  }
   if(sec < 60) return '방금 (' + sec + '초 전)';
   const min = Math.floor(sec/60);
   if(min < 60) return min + '분 전';
@@ -16241,12 +16251,12 @@ function updateTitleHungerBadge(){
   if(el){
     el.className = 'hunger-badge ' + state;
     el.textContent =
-      state === 'glow'     ? '✨ 전설의 컨디션' :
-      state === 'boosted'  ? '⚡ 기운 넘쳐요' :
-      state === 'starving' ? '💀 굶주려요!' :
-      state === 'hungry'   ? '😣 배고파요…' :
-      endingCleared        ? '🏆 영원한 정상' :
-                             '🙂 정상';
+      state === 'glow'     ? L('✨ 전설의 컨디션','✨ Legendary form') :
+      state === 'boosted'  ? L('⚡ 기운 넘쳐요','⚡ Energized') :
+      state === 'starving' ? L('💀 굶주려요!','💀 Starving!') :
+      state === 'hungry'   ? L('😣 배고파요…','😣 Hungry…') :
+      endingCleared        ? L('🏆 영원한 정상','🏆 Eternal') :
+                             L('🙂 정상','🙂 Normal');
   }
   const bubble = document.getElementById('feedBubbleBtn');
   if(bubble){
@@ -16267,12 +16277,13 @@ function openFeedModal(){
   const endingCleared = (progress.clearedChapter || 0) >= MAX_CHAPTERS;
   const stat = `<div style="font-weight:900;color:${mods.color};font-size:16px;">${mods.label}</div>` +
     `<div style="font-size:12px;color:#DEE2E6;margin-top:4px;">` +
-    `전투력: 공격 ×${mods.dmg.toFixed(2)} · HP ${mods.hp >= 0 ? '+' : ''}${mods.hp} · 연사 ×${mods.rate.toFixed(2)}` +
+    L(`전투력: 공격 ×${mods.dmg.toFixed(2)} · HP ${mods.hp >= 0 ? '+' : ''}${mods.hp} · 연사 ×${mods.rate.toFixed(2)}`,
+      `Combat: ATK ×${mods.dmg.toFixed(2)} · HP ${mods.hp >= 0 ? '+' : ''}${mods.hp} · Fire rate ×${mods.rate.toFixed(2)}`) +
     `</div>` +
     (endingCleared && stateK === 'normal'
-      ? `<div style="font-size:11px;color:#FFD43B;margin-top:6px;font-weight:700;">🏆 전 챕터 정복 보너스 — 배고픔 면역!</div>`
-      : `<div style="font-size:11px;color:#868E96;margin-top:6px;">마지막 식사 — ${formatTimeSince(since)}` +
-        (boostLeft > 0 ? `<br>부스트 남은 시간 — ${formatTimeSince(boostLeft).replace(' 전','')}` : '') +
+      ? `<div style="font-size:11px;color:#FFD43B;margin-top:6px;font-weight:700;">${L('🏆 전 챕터 정복 보너스 — 배고픔 면역!','🏆 All-chapter conquest bonus — hunger immune!')}</div>`
+      : `<div style="font-size:11px;color:#868E96;margin-top:6px;">${L('마지막 식사','Last meal')} — ${formatTimeSince(since)}` +
+        (boostLeft > 0 ? `<br>${L('부스트 남은 시간','Boost remaining')} — ${formatTimeSince(boostLeft).replace(/ (전|ago)$/,'')}` : '') +
         `</div>`);
   status.innerHTML = stat;
   // Feed cards
@@ -16354,14 +16365,18 @@ function costumeStatLines(eq){
   const m = COSTUME_GRADES[eq.grade].mult;
   if(!def) return '';
   if(def.slot === 'head'){
-    return `HP +${Math.round(25*m)}% · 자석 +${Math.round(20*m)}% · XP +${Math.round(12*m)}%`;
+    return L(`HP +${Math.round(25*m)}% · 자석 +${Math.round(20*m)}% · XP +${Math.round(12*m)}%`,
+             `HP +${Math.round(25*m)}% · Magnet +${Math.round(20*m)}% · XP +${Math.round(12*m)}%`);
   }
   if(def.slot === 'body'){
-    return `HP +${Math.round(35*m)} · 피해감소 +${Math.round(12*m)}% · 회복 ${(0.5*m).toFixed(1)}/s`;
+    return L(`HP +${Math.round(35*m)} · 피해감소 +${Math.round(12*m)}% · 회복 ${(0.5*m).toFixed(1)}/s`,
+             `HP +${Math.round(35*m)} · DR +${Math.round(12*m)}% · Regen ${(0.5*m).toFixed(1)}/s`);
   }
   // weapon
-  const proj = eq.grade === 'S' ? ' · 발사 +1' : '';
-  return `공격 +${Math.round(30*m)}% · 연사 +${Math.round(12*m)}% · 탄속 +${Math.round(18*m)}%${proj}`;
+  const projKo = eq.grade === 'S' ? ' · 발사 +1' : '';
+  const projEn = eq.grade === 'S' ? ' · Projectiles +1' : '';
+  return L(`공격 +${Math.round(30*m)}% · 연사 +${Math.round(12*m)}% · 탄속 +${Math.round(18*m)}%${projKo}`,
+           `ATK +${Math.round(30*m)}% · Fire rate +${Math.round(12*m)}% · Projectile speed +${Math.round(18*m)}%${projEn}`);
 }
 
 // Effective "power score" for a costume — combines grade multiplier with the slot's headline stat
@@ -16501,16 +16516,16 @@ function renderRescuedSetGrid(){
     const fullPct = Math.round((Math.pow(setDef.perPieceBoost, 5) * setDef.setBonus - 1) * 100 * 10) / 10;
     header.innerHTML = `
       <span style="font-size:18px;">${setDef.icon}</span>
-      <span style="font-weight:900;color:${setDef.accent};font-size:14px;">${setDef.name}</span>
-      ${isActive ? '<span style="font-size:10px;color:#A9E34B;font-weight:900;">✓ 풀세트 발동 중</span>' : ''}
+      <span style="font-weight:900;color:${setDef.accent};font-size:14px;">${nameOf(setDef)}</span>
+      ${isActive ? '<span style="font-size:10px;color:#A9E34B;font-weight:900;">'+L('✓ 풀세트 발동 중','✓ Full set active')+'</span>' : ''}
     `;
     card.appendChild(header);
     const desc = document.createElement('div');
     desc.style.cssText = 'font-size:11px;color:#FFF9DB;opacity:.85;line-height:1.45;';
-    desc.innerHTML = `${setDef.description}<br>
-      <span style="color:#74C0FC;">각 코스튬</span> +${perPct}% 친구 DPS ·
-      <span style="color:#FFE066;">풀세트 보너스</span> ×${setDef.setBonus.toFixed(2)} (
-      <b style="color:${setDef.accent};">합산 +${fullPct}%</b>)`;
+    desc.innerHTML = `${descriptionOf(setDef)}<br>
+      <span style="color:#74C0FC;">${L('각 코스튬','Per piece')}</span> +${perPct}% ${L('친구 DPS','friend DPS')} ·
+      <span style="color:#FFE066;">${L('풀세트 보너스','Full-set bonus')}</span> ×${setDef.setBonus.toFixed(2)} (
+      <b style="color:${setDef.accent};">${L('합산','Combined')} +${fullPct}%</b>)`;
     card.appendChild(desc);
     // 5명 미니 프리뷰
     const previewRow = document.createElement('div');
@@ -16523,7 +16538,9 @@ function renderRescuedSetGrid(){
       cell.appendChild(cv);
       const lbl = document.createElement('div');
       lbl.style.cssText = 'font-size:9px;color:#FFE066;font-weight:700;';
-      lbl.textContent = ({sparrow:'참새', magpie:'까치', owl:'부엉이', parrot:'앵무새', squirrel:'다람쥐'})[k];
+      lbl.textContent = (getLang()==='en'
+        ? ({sparrow:'Sparrow', magpie:'Magpie', owl:'Owl', parrot:'Parrot', squirrel:'Squirrel'})
+        : ({sparrow:'참새', magpie:'까치', owl:'부엉이', parrot:'앵무새', squirrel:'다람쥐'}))[k];
       cell.appendChild(lbl);
       previewRow.appendChild(cell);
       drawRescuedFriendPreview(cv, k, setDef.id + '_' + k);
@@ -16536,7 +16553,7 @@ function renderRescuedSetGrid(){
       const eqBtn = document.createElement('button');
       eqBtn.className = 'btn';
       eqBtn.style.cssText = `flex:1;min-width:120px;background:linear-gradient(180deg,${setDef.accent},rgba(0,0,0,.5));`;
-      eqBtn.textContent = isActive ? '✓ 착용 중 (해제)' : '🔄 일괄 장착';
+      eqBtn.textContent = isActive ? L('✓ 착용 중 (해제)','✓ Wearing (unequip)') : L('🔄 일괄 장착','🔄 Equip all');
       eqBtn.addEventListener('click', () => {
         if(isActive) unequipRescuedSet();
         else equipRescuedSet(setDef.id);
@@ -16547,8 +16564,8 @@ function renderRescuedSetGrid(){
       const buyBtn = document.createElement('button');
       buyBtn.className = 'btn';
       buyBtn.style.cssText = `flex:1;min-width:120px;background:linear-gradient(180deg,${affordable?'#FFD43B':'#495057'},${affordable?'#F76707':'#212529'});${affordable?'':'opacity:.7;'}`;
-      const haveLabel = ownedCount > 0 ? ` (보유 ${ownedCount}/5 · 잔여 ${remaining}종)` : ' (5종 일괄)';
-      buyBtn.textContent = `🪙 ${totalCost.toLocaleString()} — 구매${haveLabel}`;
+      const haveLabel = ownedCount > 0 ? L(` (보유 ${ownedCount}/5 · 잔여 ${remaining}종)`,` (owned ${ownedCount}/5 · ${remaining} left)`) : L(' (5종 일괄)',' (5-pack)');
+      buyBtn.textContent = L(`🪙 ${totalCost.toLocaleString()} — 구매${haveLabel}`,`🪙 ${totalCost.toLocaleString()} — Buy${haveLabel}`);
       buyBtn.addEventListener('click', () => {
         const r = buyRescuedSet(setDef.id);
         if(!r.ok){
@@ -16586,17 +16603,17 @@ function renderParentsSetGrid(){
     const fullPct = Math.round((Math.pow(setDef.perPieceBoost, 2) * setDef.setBonus - 1) * 100 * 10) / 10;
     header.innerHTML = `
       <span style="font-size:18px;">${setDef.icon}</span>
-      <span style="font-weight:900;color:${setDef.accent};font-size:14px;">${setDef.name}</span>
-      ${isActive ? '<span style="font-size:10px;color:#A9E34B;font-weight:900;">✓ 풀세트 발동 중</span>' : ''}
+      <span style="font-weight:900;color:${setDef.accent};font-size:14px;">${nameOf(setDef)}</span>
+      ${isActive ? '<span style="font-size:10px;color:#A9E34B;font-weight:900;">'+L('✓ 풀세트 발동 중','✓ Full set active')+'</span>' : ''}
     `;
     card.appendChild(header);
     const desc = document.createElement('div');
     desc.style.cssText = 'font-size:11px;color:#FFF9DB;opacity:.85;line-height:1.45;';
-    desc.innerHTML = `${setDef.description}<br>
-      <span style="color:#74C0FC;">각 pair</span> +${perPct}% 부모 DPS ·
-      <span style="color:#FFE066;">풀세트(2pair) 보너스</span> ×${setDef.setBonus.toFixed(2)} (
-      <b style="color:${setDef.accent};">합산 +${fullPct}%</b>) ·
-      <span style="color:#A9E34B;">부분:</span> 1 pair 45% / 2 pair 85% — <b>각자 따로 구매 가능</b>`;
+    desc.innerHTML = `${descriptionOf(setDef)}<br>
+      <span style="color:#74C0FC;">${L('각 pair','Per pair')}</span> +${perPct}% ${L('부모 DPS','parent DPS')} ·
+      <span style="color:#FFE066;">${L('풀세트(2pair) 보너스','Full-set (2pair) bonus')}</span> ×${setDef.setBonus.toFixed(2)} (
+      <b style="color:${setDef.accent};">${L('합산','Combined')} +${fullPct}%</b>) ·
+      <span style="color:#A9E34B;">${L('부분:','Partial:')}</span> 1 pair 45% / 2 pair 85% — <b>${L('각자 따로 구매 가능','buy each side individually')}</b>`;
     card.appendChild(desc);
     // 측면별 (husbandParents / wifeParents) 분리 구매·장착 카드 2개를 grid 로.
     const sidesRow = document.createElement('div');
@@ -16610,7 +16627,7 @@ function renderParentsSetGrid(){
       drawParentPairPreview(cv, k, setDef.id);
       const lbl = document.createElement('div');
       lbl.style.cssText = 'font-size:10px;color:#FFE066;font-weight:800;';
-      lbl.textContent = k === 'husbandParents' ? '👨‍👩 남편 부모님' : '👨‍👩 아내 부모님';
+      lbl.textContent = k === 'husbandParents' ? L('👨‍👩 남편 부모님',"👨‍👩 Husband's Parents") : L('👨‍👩 아내 부모님',"👨‍👩 Wife's Parents");
       sideCell.appendChild(lbl);
       // 구매 / 장착 / 해제 버튼
       const itemId = setDef.id === 'angelDefault' ? 'angel' : (setDef.id + '_' + k);
@@ -16624,21 +16641,21 @@ function renderParentsSetGrid(){
       btn.className = 'btn';
       btn.style.cssText = 'font-size:10px;padding:5px 8px;width:100%;';
       if(!unlockedSide){
-        btn.textContent = '🔒 합류 전';
+        btn.textContent = L('🔒 합류 전','🔒 Not joined yet');
         btn.style.background = 'linear-gradient(180deg,#495057,#212529)';
         btn.style.opacity = '.55';
         btn.disabled = true;
       } else if(!owned){
         btn.style.background = `linear-gradient(180deg,${affordable?'#FFD43B':'#495057'},${affordable?'#F76707':'#212529'})`;
         if(!affordable) btn.style.opacity = '.7';
-        btn.textContent = cost === 0 ? '🪙 무료 — 구매' : `🪙 ${cost.toLocaleString()} — 구매`;
+        btn.textContent = cost === 0 ? L('🪙 무료 — 구매','🪙 Free — Buy') : L(`🪙 ${cost.toLocaleString()} — 구매`,`🪙 ${cost.toLocaleString()} — Buy`);
         btn.addEventListener('click', () => {
           const r = buyParentsSet(setDef.id, k);
           if(!r.ok){
             state.toastBanner = { text:T('status.fail'), sub:r.reason || L('실패','Failed'), t:2.0, maxT:2.0, tone:'warn' };
           } else {
             sfxLevelUp();
-            const sideLbl = k === 'husbandParents' ? '남편 부모님' : '아내 부모님';
+            const sideLbl = k === 'husbandParents' ? L('남편 부모님',"husband's parents") : L('아내 부모님',"wife's parents");
             state.toastBanner = { text:L(`✨ ${nameOf(setDef)} (${sideLbl}) 구매!`, `✨ Purchased ${nameOf(setDef)} (${sideLbl})!`), sub:`-${(r.cost||0).toLocaleString()} 🪙`, t:2.4, maxT:2.4, tone:'critical' };
           }
           renderCompanionCostumeSection();
@@ -16646,7 +16663,7 @@ function renderParentsSetGrid(){
           if(sc) sc.textContent = (progress.coins||0).toLocaleString();
         });
       } else if(equipped){
-        btn.textContent = '✓ 착용 중 (해제)';
+        btn.textContent = L('✓ 착용 중 (해제)','✓ Wearing (unequip)');
         btn.style.background = 'linear-gradient(180deg,#A9E34B,#37B24D)';
         btn.addEventListener('click', () => {
           unequipParentsSet(k);
@@ -16703,7 +16720,7 @@ function renderAncestorsCostumeGrid(){
     if(!progress.companionUnlocks || !progress.companionUnlocks[ak]) continue;
     const card = document.createElement('div');
     const accent = ak === 'gugunardo' ? '#FFA94D' : '#9775FA';
-    const label = ak === 'gugunardo' ? '구구나르도 다 둘치 (발명가)' : '비리스토둘레스 (철학자)';
+    const label = ak === 'gugunardo' ? L('구구나르도 다 둘치 (발명가)','Gugunardo da Dulci (Inventor)') : L('비리스토둘레스 (철학자)','Bristotodules (Philosopher)');
     const icon = ak === 'gugunardo' ? '📐' : '📜';
     card.style.cssText = `border:2px solid ${accent};border-radius:14px;padding:12px 14px;background:linear-gradient(180deg,rgba(40,15,70,.6),rgba(15,2,30,.85));display:flex;flex-direction:column;gap:8px;`;
     const header = document.createElement('div');
@@ -16728,7 +16745,7 @@ function renderAncestorsCostumeGrid(){
       drawAncestorPreview(cv, ak, def.id);
       const nm = document.createElement('div');
       nm.style.cssText = `font-size:10px;color:${accent};font-weight:800;text-align:center;`;
-      nm.textContent = (def.icon || '') + ' ' + def.name;
+      nm.textContent = (def.icon || '') + ' ' + nameOf(def);
       itm.appendChild(nm);
       const btn = document.createElement('button');
       btn.className = 'btn';
@@ -16736,7 +16753,7 @@ function renderAncestorsCostumeGrid(){
       if(!owned){
         const affordable = (progress.coins||0) >= (def.cost||0);
         btn.style.background = affordable ? 'linear-gradient(180deg,#FFD43B,#F76707)' : 'linear-gradient(180deg,#495057,#212529)';
-        btn.textContent = `🪙 ${(def.cost||0).toLocaleString()} 구매`;
+        btn.textContent = L(`🪙 ${(def.cost||0).toLocaleString()} 구매`,`🪙 ${(def.cost||0).toLocaleString()} Buy`);
         btn.addEventListener('click', () => {
           const r = buyCompanionCostume(ak, def.id);
           if(!r.ok){
@@ -16749,7 +16766,7 @@ function renderAncestorsCostumeGrid(){
           }
         });
       } else if(equipped){
-        btn.textContent = '✓ 착용 중 (해제)';
+        btn.textContent = L('✓ 착용 중 (해제)','✓ Wearing (unequip)');
         btn.style.background = 'linear-gradient(180deg,#A9E34B,#37B24D)';
         btn.addEventListener('click', () => {
           slot.equipped.body = null;
@@ -16873,7 +16890,7 @@ function renderCompanionGrid(kind, gridId){
     card.appendChild(cv);
     const name = document.createElement('div');
     name.style.cssText = 'font-size:11px;font-weight:900;color:#FFF9DB;text-align:center;line-height:1.15;';
-    name.textContent = (def.icon || '') + ' ' + def.name;
+    name.textContent = (def.icon || '') + ' ' + nameOf(def);
     card.appendChild(name);
     if(def.dmgBoost && def.dmgBoost > 1){
       const boost = document.createElement('div');
@@ -16883,9 +16900,9 @@ function renderCompanionGrid(kind, gridId){
     }
     const status = document.createElement('div');
     status.style.cssText = 'font-size:10px;font-weight:900;';
-    if(equipped)        status.innerHTML = '<span style="color:#A9E34B;">✓ 착용 중</span>';
-    else if(owned)      status.innerHTML = '<span style="color:#A5D8FF;">클릭 장착</span>';
-    else if(def.cost === 0) status.innerHTML = '<span style="color:#A9E34B;">기본 제공</span>';
+    if(equipped)        status.innerHTML = `<span style="color:#A9E34B;">${T('status.equipped')}</span>`;
+    else if(owned)      status.innerHTML = `<span style="color:#A5D8FF;">${T('status.tapEquip')}</span>`;
+    else if(def.cost === 0) status.innerHTML = `<span style="color:#A9E34B;">${T('status.free')}</span>`;
     else                status.innerHTML = `<span style="color:${affordable?'#FFD43B':'#FA5252'};">🪙 ${def.cost.toLocaleString()}</span>`;
     card.appendChild(status);
     card.addEventListener('click', () => {
@@ -17009,7 +17026,7 @@ function renderEquipRow(){
       slotEl.innerHTML = `
         <div class="slot-name">${slotLabels[slot]}</div>
         <div class="slot-icon"><canvas></canvas></div>
-        <div style="font-size:11px;color:#FFE066;font-weight:900;">${def.name}</div>
+        <div style="font-size:11px;color:#FFE066;font-weight:900;">${nameOf(def)}</div>
         <div class="slot-grade ${g.borderClass}">${g.label}</div>
       `;
       slotEl.title = L('클릭하여 다른 코스튬으로 변경', 'Click to swap costume');
@@ -17058,7 +17075,7 @@ function openEquipPicker(slot){
     const def = COSTUME_DEFS_BY_ID[cur.defId];
     const summary = document.createElement('div');
     summary.className = 'ep-cur-summary';
-    summary.innerHTML = `<b>★ 현재 착용:</b> ${def?def.name:''} (${cur.grade}) — ${costumeStatLines(cur)}`;
+    summary.innerHTML = `<b>${L('★ 현재 착용:','★ Currently wearing:')}</b> ${def?nameOf(def):''} (${cur.grade}) — ${costumeStatLines(cur)}`;
     optsEl.appendChild(summary);
   }
   // Find owned costumes whose def belongs to this slot. Sort S→A→B→C, then by name.
@@ -17069,7 +17086,7 @@ function openEquipPicker(slot){
   if(owned.length === 0){
     const empty = document.createElement('div');
     empty.style.cssText = 'text-align:center;color:#868E96;padding:24px 8px;font-size:13px;';
-    empty.innerHTML = '이 슬롯에 장착할 코스튬이 없어요.<br>가챠로 뽑거나 챕터를 클리어해 모아보세요!';
+    empty.innerHTML = L('이 슬롯에 장착할 코스튬이 없어요.<br>가챠로 뽑거나 챕터를 클리어해 모아보세요!','No costumes for this slot yet.<br>Pull from gacha or clear chapters to collect!');
     optsEl.appendChild(empty);
     modal.classList.remove('hidden');
     return;
@@ -17091,15 +17108,15 @@ function openEquipPicker(slot){
     row.type = 'button';
     row.className = 'ep-option-row' + (isEquipped?' equipped':'') + (isUpgrade?' upgrade':'');
     let tags = '';
-    if(isEquipped) tags += '<span class="ep-tag-equipped">★ 착용 중</span>';
-    if(isUpgrade)  tags += '<span class="ep-tag-upgrade">★ 업그레이드</span>';
-    if(isDown)     tags += '<span class="ep-tag-down">하위 등급</span>';
+    if(isEquipped) tags += `<span class="ep-tag-equipped">${L('★ 착용 중','★ Wearing')}</span>`;
+    if(isUpgrade)  tags += `<span class="ep-tag-upgrade">${L('★ 업그레이드','★ Upgrade')}</span>`;
+    if(isDown)     tags += `<span class="ep-tag-down">${L('하위 등급','Downgrade')}</span>`;
     row.innerHTML = `
       <div class="ep-thumb"><canvas></canvas></div>
       <div class="ep-meta">
         <div class="ep-row1">
           <span class="ep-grade-chip ${g.borderClass}">${g.label}</span>
-          <span class="ep-name-txt">${def.name}</span>
+          <span class="ep-name-txt">${nameOf(def)}</span>
         </div>
         <div class="ep-stats-txt">${costumeStatLines(eq)}</div>
         <div class="ep-tags">${tags}</div>
@@ -17190,7 +17207,7 @@ function renderCosDetailGrid(){
 
     const name = document.createElement('div');
     name.className = 'name';
-    name.textContent = def.name;
+    name.textContent = nameOf(def);
     card.appendChild(name);
 
     const desc = document.createElement('div');
@@ -17213,8 +17230,8 @@ function renderCosDetailGrid(){
       // appearance at any grade. Owned chips include an equip/unequip action; unowned chips only
       // show the silhouette + a gacha hint.
       chip.title = owned
-        ? (equippedHere ? '클릭하여 미리보기 / 해제' : `${gKey} 등급 ${def.name} 미리보기 · 장착`)
-        : `${gKey} 등급 ${def.name} 미리보기 (미보유)`;
+        ? (equippedHere ? L('클릭하여 미리보기 / 해제','Click to preview / unequip') : L(`${gKey} 등급 ${nameOf(def)} 미리보기 · 장착`, `${gKey} grade ${nameOf(def)} preview · equip`))
+        : L(`${gKey} 등급 ${nameOf(def)} 미리보기 (미보유)`, `${gKey} grade ${nameOf(def)} preview (not owned)`);
       chip.addEventListener('click', () => openCostumePreviewModal(def.id, gKey, slot));
       gradesRow.appendChild(chip);
     }
@@ -17249,7 +17266,7 @@ function openCostumePreviewModal(defId, grade, slot){
   chipEl.style.color = grade === 'S' || grade === 'C' ? '#1A1300' : '#fff';
   chipEl.style.border = '2px solid #fff';
   chipEl.style.boxShadow = `0 0 16px ${g.color}aa`;
-  document.getElementById('cpmTitle').textContent = def.name;
+  document.getElementById('cpmTitle').textContent = nameOf(def);
   document.getElementById('cpmSlotLabel').textContent = L(`${slotLabel} 슬롯`, `${slotLabel} slot`);
   // Render the costume at the requested grade — works for unowned grades too because
   // renderCostumePreview only needs {defId, grade}, not an actual owned eq item.
@@ -17351,13 +17368,16 @@ function renderGachaResult(items){
     const eq = items[0];
     const def = COSTUME_DEFS_BY_ID[eq.defId];
     const g = COSTUME_GRADES[eq.grade];
+    const gradeLabel2 = eq.grade === 'S' ? L('✨ S 등급! ✨','✨ S grade! ✨') : eq.grade === 'A' ? L('⭐ A 등급!','⭐ A grade!') : eq.grade === 'B' ? L('🔵 B 등급','🔵 B grade') : L('⚪ C 등급','⚪ C grade');
+    const slotKo = def.slot === 'head' ? '머리' : def.slot === 'body' ? '몸통' : '무기';
+    const slotEn = def.slot === 'head' ? 'Head' : def.slot === 'body' ? 'Body' : 'Weapon';
     el.innerHTML = `
-      <div class="pull-title">${eq.grade === 'S' ? '✨ S 등급! ✨' : eq.grade === 'A' ? '⭐ A 등급!' : eq.grade === 'B' ? '🔵 B 등급' : '⚪ C 등급'}</div>
+      <div class="pull-title">${gradeLabel2}</div>
       <div class="pull-card" style="border-color:${g.color};box-shadow:0 0 30px ${g.color}aa;">
         <div class="pc-grade ${g.borderClass}" style="background:${g.color};border-color:#fff;">${g.label}</div>
         <div class="pc-icon"><canvas></canvas></div>
-        <div class="pc-name">${def.name}</div>
-        <div class="pc-slot">${def.slot === 'head' ? '머리' : def.slot === 'body' ? '몸통' : '무기'}</div>
+        <div class="pc-name">${nameOf(def)}</div>
+        <div class="pc-slot">${L(slotKo, slotEn)}</div>
       </div>
       <div class="pull-stats">${costumeStatLines(eq)}</div>
     `;
@@ -17466,7 +17486,7 @@ function renderSkinShop(){
   // Sort by price ascending so cheaper skins appear first; equal-price ties keep declaration order.
   const sortedSkins = TITLE_SKINS.slice().sort((a, b) => (a.price || 0) - (b.price || 0));
   // v12.14 — 원정 보상 스킨은 expedition 끝 챕터 클리어로만 해금. price 0 이지만 코인 구매 불가.
-  const expEndCh = { 1:50, 2:70, 3:100, 4:130, 5:160, 6:200 };
+  const expEndCh = { 1:50, 2:70, 3:100, 4:130, 5:160, 6:200, 7:250, 8:300 };
   for(const skin of sortedSkins){
     const owned = (progress.ownedSkins||[]).includes(skin.id);
     const equipped = progress.skin === skin.id;
@@ -17477,18 +17497,19 @@ function renderSkinShop(){
     const card = document.createElement('div');
     card.className = 'skin-card' + (owned ? ' owned' : '') + (equipped ? ' equipped' : '');
     let tag;
-    if(equipped) tag = `<span class="skin-tag eq">★ 적용중</span>`;
-    else if(owned) tag = `<span class="skin-tag">보유</span>`;
-    else if(expRequired && !expCleared) tag = `<span class="skin-tag" style="border-color:#FF6B6B;color:#FF6B6B;">🔒 잠김</span>`;
+    if(equipped) tag = `<span class="skin-tag eq">${L('★ 적용중','★ Applied')}</span>`;
+    else if(owned) tag = `<span class="skin-tag">${L('보유','Owned')}</span>`;
+    else if(expRequired && !expCleared) tag = `<span class="skin-tag" style="border-color:#FF6B6B;color:#FF6B6B;">${L('🔒 잠김','🔒 Locked')}</span>`;
     else tag = '';
     let actionHtml;
     if(equipped){
-      actionHtml = `<button class="skin-action equipped" type="button">적용 중</button>`;
+      actionHtml = `<button class="skin-action equipped" type="button">${L('적용 중','Applied')}</button>`;
     } else if(owned){
-      actionHtml = `<button class="skin-action equip" type="button">장착</button>`;
+      actionHtml = `<button class="skin-action equip" type="button">${T('btn.equip')}</button>`;
     } else if(expRequired && !expCleared){
       // 원정 보상 — 클리어 전. 클리어 시 구매 자격 해금 (자동 지급 X).
-      actionHtml = `<button class="skin-action poor" type="button">🔒 원정 ${['','Ⅰ','Ⅱ','Ⅲ','Ⅳ','Ⅴ','Ⅵ'][expRequired]} 클리어 필요</button>`;
+      const expRoman = ['','Ⅰ','Ⅱ','Ⅲ','Ⅳ','Ⅴ','Ⅵ','Ⅶ','Ⅷ'][expRequired] || '';
+      actionHtml = `<button class="skin-action poor" type="button">${L(`🔒 원정 ${expRoman} 클리어 필요`,`🔒 Clear Expedition ${expRoman}`)}</button>`;
     } else if(canAfford){
       actionHtml = `<button class="skin-action" type="button">🪙 ${skin.price.toLocaleString()}</button>`;
     } else {
@@ -17503,9 +17524,11 @@ function renderSkinShop(){
     card.style.cursor = 'pointer';
     card.addEventListener('click', () => {
       if(expRequired && !expCleared && !owned){
+        const expRoman = ['','Ⅰ','Ⅱ','Ⅲ','Ⅳ','Ⅴ','Ⅵ','Ⅶ','Ⅷ'][expRequired] || '';
         state.toastBanner = {
-          text:`🔒 원정 ${['','Ⅰ','Ⅱ','Ⅲ','Ⅳ','Ⅴ','Ⅵ'][expRequired]} 보상 스킨`,
-          sub:`ch${expEndCh[expRequired]} 클리어 시 구매 자격 해금 (코인 ${(skin.price||0).toLocaleString()}🪙 별도 결제)`,
+          text:L(`🔒 원정 ${expRoman} 보상 스킨`, `🔒 Expedition ${expRoman} reward skin`),
+          sub:L(`ch${expEndCh[expRequired]} 클리어 시 구매 자격 해금 (코인 ${(skin.price||0).toLocaleString()}🪙 별도 결제)`,
+                `Unlocks purchase rights on clearing ch${expEndCh[expRequired]} (${(skin.price||0).toLocaleString()}🪙 paid separately)`),
           t:3.0, maxT:3.0, tone:'warn'
         };
         return;
