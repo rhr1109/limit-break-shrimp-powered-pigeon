@@ -314,8 +314,9 @@
   .card h2{margin:0 0 6px;color:#FFE066;font-size:24px;text-align:center;text-shadow:0 2px 0 #C92A2A;}
   .card .sub{text-align:center;color:#FFF9DB;opacity:.9;margin-bottom:16px;font-size:13px;}
   .card .choices{display:flex;flex-direction:column;gap:10px;}
-  .choice{background:linear-gradient(180deg,rgba(201,42,42,.25),rgba(26,5,1,.6));border:2px solid #FFD43B;border-radius:10px;padding:12px;cursor:pointer;transition:transform .08s, background .15s;text-align:left;color:#fff;font-family:inherit;}
+  .choice{background:linear-gradient(180deg,rgba(201,42,42,.25),rgba(26,5,1,.6));border:2px solid #FFD43B;border-radius:10px;padding:12px;cursor:pointer;transition:transform .08s, background .15s, box-shadow .15s;text-align:left;color:#fff;font-family:inherit;outline:none;}
   .choice:hover{background:linear-gradient(180deg,rgba(201,42,42,.45),rgba(90,26,4,.7));}
+  .choice:focus,.choice:focus-visible{background:linear-gradient(180deg,rgba(201,42,42,.55),rgba(90,26,4,.78));border-color:#FFF9DB;box-shadow:0 0 0 3px rgba(255,255,255,.55), 0 0 18px rgba(255,224,102,.6);}
   .choice:active{transform:scale(.98);}
   .choice .title{display:flex;align-items:center;gap:10px;font-weight:900;font-size:16px;color:#FFE066;margin-bottom:4px;}
   .choice .icon{width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;background:rgba(255,212,59,.18);border:2px solid #FFD43B;border-radius:8px;font-size:18px;}
@@ -1231,7 +1232,7 @@
     <div class="card" style="max-width:460px;max-height:90vh;overflow-y:auto;">
       <h2 data-i18n="how.title">조작법 · 규칙</h2>
       <div style="font-size:13px;line-height:1.65;color:#FFF9DB;">
-        <p data-i18n-html="how.pc"><b style="color:#FFE066;">💻 PC:</b> WASD 또는 방향키로 이동. 자동으로 가장 가까운 적에게 새우과자를 던집니다. ESC로 일시정지.</p>
+        <p data-i18n-html="how.pc"><b style="color:#FFE066;">💻 PC:</b> WASD 또는 방향키로 이동. 자동으로 가장 가까운 적에게 새우과자를 던집니다.<br>&nbsp;&nbsp;⌨️ <b>스페이스바</b> — 충전된 비둘기의 외침 발동.<br>&nbsp;&nbsp;🃏 레벨업 카드: <b>↑/↓</b>로 선택 이동, <b>Enter</b>로 확정.<br>&nbsp;&nbsp;⏸️ <b>ESC</b> — 일시정지.</p>
         <p data-i18n-html="how.mobile"><b style="color:#FFE066;">📱 모바일:</b> 오른쪽 아래 부동 조이스틱으로 이동. 화면 우측 아래 절반 어디든 손가락을 대면 그 위치로 조이스틱이 따라옵니다. 왼쪽 ⏸ 일시정지 / ⚙ 설정 버튼.</p>
         <p data-i18n-html="how.shop"><b style="color:#FFE066;">🛒 상점:</b> 타이틀에서 진입. 코인은 적/보스 처치, 코인 픽업, 챕터 클리어로 누적되며 영구 업그레이드(시작 HP·공격력·이속·자석 반경·치명타 등)를 살 수 있어 다음 런에 자동 적용됩니다.</p>
         <p data-i18n-html="how.cos"><b style="color:#FFE066;">👗 코스튬:</b> 머리·몸통·무기 슬롯에 1개씩 장착. 등급은 S/A/B/C이며, 상점에서 가챠로 뽑거나 챕터 클리어 보상으로 드물게 획득합니다. 10판마다 최소 한 번은 코스튬이 보장됩니다.</p>
@@ -6041,7 +6042,7 @@ const I18N = {
     // How-to
     'how.title': 'Controls · Rules',
     'how.close': 'Close',
-    'how.pc': '<b style="color:#FFE066;">💻 PC:</b> WASD or arrow keys to move. You auto-throw shrimp snacks at the nearest enemy. ESC to pause.',
+    'how.pc': '<b style="color:#FFE066;">💻 PC:</b> WASD or arrow keys to move. You auto-throw shrimp snacks at the nearest enemy.<br>&nbsp;&nbsp;⌨️ <b>Spacebar</b> — fire Pigeon\'s Cry once charged.<br>&nbsp;&nbsp;🃏 Level-up cards: <b>↑/↓</b> to highlight, <b>Enter</b> to confirm.<br>&nbsp;&nbsp;⏸️ <b>ESC</b> — pause.',
     'how.mobile': '<b style="color:#FFE066;">📱 Mobile:</b> Floating joystick at the bottom right. Touch anywhere in the lower-right half and the joystick follows your finger. ⏸ pause / ⚙ settings on the left.',
     'how.shop': '<b style="color:#FFE066;">🛒 Shop:</b> Open from the title. Coins drop from enemies, bosses, pickups, and chapter clears. Spend them on permanent upgrades (start HP · DMG · move speed · magnet radius · crit, etc.) that auto-apply to the next run.',
     'how.cos': '<b style="color:#FFE066;">👗 Costumes:</b> One per head/body/weapon slot. Grades S/A/B/C, pulled from the gacha or rarely dropped on chapter clear. At least one costume is guaranteed every 10 clears.',
@@ -6289,7 +6290,7 @@ const I18N = {
     // How-to
     'how.title': '조작법 · 규칙',
     'how.close': '닫기',
-    'how.pc': '<b style="color:#FFE066;">💻 PC:</b> WASD 또는 방향키로 이동. 자동으로 가장 가까운 적에게 새우과자를 던집니다. ESC로 일시정지.',
+    'how.pc': '<b style="color:#FFE066;">💻 PC:</b> WASD 또는 방향키로 이동. 자동으로 가장 가까운 적에게 새우과자를 던집니다.<br>&nbsp;&nbsp;⌨️ <b>스페이스바</b> — 충전된 비둘기의 외침 발동.<br>&nbsp;&nbsp;🃏 레벨업 카드: <b>↑/↓</b>로 선택 이동, <b>Enter</b>로 확정.<br>&nbsp;&nbsp;⏸️ <b>ESC</b> — 일시정지.',
     'how.mobile': '<b style="color:#FFE066;">📱 모바일:</b> 오른쪽 아래 부동 조이스틱으로 이동. 화면 우측 아래 절반 어디든 손가락을 대면 그 위치로 조이스틱이 따라옵니다. 왼쪽 ⏸ 일시정지 / ⚙ 설정 버튼.',
     'how.shop': '<b style="color:#FFE066;">🛒 상점:</b> 타이틀에서 진입. 코인은 적/보스 처치, 코인 픽업, 챕터 클리어로 누적되며 영구 업그레이드(시작 HP·공격력·이속·자석 반경·치명타 등)를 살 수 있어 다음 런에 자동 적용됩니다.',
     'how.cos': '<b style="color:#FFE066;">👗 코스튬:</b> 머리·몸통·무기 슬롯에 1개씩 장착. 등급은 S/A/B/C이며, 상점에서 가챠로 뽑거나 챕터 클리어 보상으로 드물게 획득합니다. 10판마다 최소 한 번은 코스튬이 보장됩니다.',
@@ -10268,9 +10269,34 @@ function initStage(){ initChapter(); }
 // ---------- Input ----------
 const keys = new Set();
 window.addEventListener('keydown', e=>{
-  if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key)) e.preventDefault();
+  if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' ','Enter'].includes(e.key)) e.preventDefault();
+  // Level-up modal: ↑↓ navigate, Enter to confirm. Intercept BEFORE touching `keys` so the
+  // pigeon doesn't drift while the player is picking a card.
+  const lv = document.getElementById('levelUp');
+  if(lv && !lv.classList.contains('hidden')){
+    const choices = Array.from(lv.querySelectorAll('.choice'));
+    if(choices.length){
+      const focused = document.activeElement;
+      let idx = choices.indexOf(focused);
+      if(e.key === 'ArrowDown' || e.key === 'ArrowRight'){
+        idx = (idx < 0 ? 0 : (idx + 1) % choices.length);
+        choices[idx].focus();
+        return;
+      } else if(e.key === 'ArrowUp' || e.key === 'ArrowLeft'){
+        idx = (idx < 0 ? choices.length - 1 : (idx - 1 + choices.length) % choices.length);
+        choices[idx].focus();
+        return;
+      } else if(e.key === 'Enter'){
+        if(idx >= 0) choices[idx].click();
+        else choices[0].click();
+        return;
+      }
+    }
+  }
   keys.add(e.key.toLowerCase());
   if(e.key==='Escape' && state.scene==='playing') togglePause();
+  // Pigeon's Cry — Spacebar fires the ult on PC. doUltimate() guards scene + charge state.
+  if(e.key === ' ' && state.scene === 'playing') doUltimate();
 });
 window.addEventListener('keyup', e=> keys.delete(e.key.toLowerCase()));
 
@@ -10881,7 +10907,7 @@ const UPGRADES = [
   { id:'bomb', title:'새우과자 폭탄', title_en:'Shrimp Snack Bomb', icon:'💣', max:4, rarity:'e',
     desc:(l)=>l?L('폭탄 빈도 +25%, 데미지 +30%','Bomb cadence +25% · DMG +30%'):L('주기적으로 대폭발! 주변 모든 적에게 피해','Periodic explosion damaging all nearby foes'),
     apply:(p,s)=>{ s.abilities.bomb = (s.abilities.bomb||0) + 1; } },
-  { id:'lightning', title:'꼬북칩 번개', title_en:'Cobuk-chip Lightning', icon:'⚡', max:4, rarity:'e',
+  { id:'lightning', title:'깃털 번개', title_en:'Feather Lightning', icon:'⚡', max:4, rarity:'e',
     desc:(l)=>l?L('번개 대상 +1','Lightning targets +1'):L('무작위 적에게 번개! 연쇄 효과','Strikes random enemies with chain lightning'),
     apply:(p,s)=>{ s.abilities.lightning = (s.abilities.lightning||0) + 1; } },
   { id:'heal', title:'자가 치유', title_en:'Self Heal', icon:'💖', max:3, rarity:'l',
@@ -11070,6 +11096,9 @@ function showLevelUp(){
     }
   }
   document.getElementById('levelUp').classList.remove('hidden');
+  // PC: focus the first choice so ↑↓ navigation + Enter select work without an initial Tab.
+  const firstChoice = document.querySelector('#lvChoices .choice');
+  if(firstChoice) firstChoice.focus();
 }
 function closeLevelUp(){
   document.getElementById('levelUp').classList.add('hidden');
@@ -11284,11 +11313,11 @@ function killEnemy(e){
 
 // ---------- Drop items ----------
 const ITEM_DEFS = {
-  heal:   { icon:'💖', color:'#FF6B9D', glow:'#FFB3D9', label:'HP 30% 회복' },
-  magnet: { icon:'🧲', color:'#74C0FC', glow:'#D0EBFF', label:'XP 전부 흡수' },
-  bomb:   { icon:'💣', color:'#FFA94D', glow:'#FFE066', label:'주변 적 제거' },
-  golden: { icon:'🌟', color:'#FFD43B', glow:'#FFF3BF', label:'대량 XP' },
-  coin:   { icon:'🪙', color:'#FFD43B', glow:'#FFF9DB', label:'+점수' },
+  heal:   { icon:'💖', color:'#FF6B9D', glow:'#FFB3D9', label:'HP 30% 회복',  label_en:'Heal 30% HP' },
+  magnet: { icon:'🧲', color:'#74C0FC', glow:'#D0EBFF', label:'XP 전부 흡수', label_en:'Pull all XP' },
+  bomb:   { icon:'💣', color:'#FFA94D', glow:'#FFE066', label:'주변 적 제거', label_en:'Clear nearby foes' },
+  golden: { icon:'🌟', color:'#FFD43B', glow:'#FFF3BF', label:'대량 XP',     label_en:'Big XP' },
+  coin:   { icon:'🪙', color:'#FFD43B', glow:'#FFF9DB', label:'+점수',       label_en:'+Score' },
 };
 // Drop chance tables per enemy — Survivors-style meaningful rates.
 // "drop" = probability ANY item spawns. If it does, the second roll picks which.
@@ -11441,10 +11470,10 @@ function applyItem(item){
     const metaCoins = 1 + Math.floor(state.chapter * 0.21);
     awardCoins(metaCoins);
     sfxCoin();
-    state.pickupTexts.push({ x:p.x+10, y:p.y-28, t:.8, txt:`+${bonus}점 · +${metaCoins}🪙`, color:'#FFE066' });
+    state.pickupTexts.push({ x:p.x+10, y:p.y-28, t:.8, txt:L(`+${bonus}점 · +${metaCoins}🪙`, `+${bonus} pts · +${metaCoins}🪙`), color:'#FFE066' });
   }
   if(item.kind !== 'coin'){
-    state.pickupTexts.push({ x:p.x, y:p.y-40, t:1.0, txt:def.label, color:def.glow });
+    state.pickupTexts.push({ x:p.x, y:p.y-40, t:1.0, txt:L(def.label, def.label_en), color:def.glow });
   }
   spawnPickupAura(def.color, def.glow);
   state.camera.shake = Math.max(state.camera.shake, 8);
