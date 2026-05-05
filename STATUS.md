@@ -1,10 +1,11 @@
 # 새우과자로 한계돌파 (Limit Break: Shrimp-Powered Pigeon) — 배포 상태
 
-## 라이브
-- **Production URL**: https://saeukkang-limit-break.vercel.app
-- **Repo**: https://github.com/rhr1109/saeukkang-limit-break
-- **Vercel project**: `saeukkang-limit-break` (rhr1109s-projects)
+## 라이브 (v12.42 — 프로젝트 rename)
+- **Production URL**: https://limit-break-shrimp-powered-pigeon.vercel.app
+- **Repo**: https://github.com/rhr1109/limit-break-shrimp-powered-pigeon
+- **Vercel project**: `limit-break-shrimp-powered-pigeon` (rhr1109s-projects)
 - **빌드 방식**: 정적 호스팅 (단일 `index.html`, package.json/빌드 스텝 없음)
+- **이전 URL**: `saeukkang-limit-break.vercel.app` 도 alias로 유지되어 기존 사용자 북마크 그대로 동작 (localStorage 키 `saeukkang_progress_v1`도 그대로 유지 → 진행도 보존).
 
 ## 최근 배포
 | 버전 | 일자 | 요약 |
@@ -131,4 +132,4 @@
 1. `git add index.html STATUS.md` — 검증된 파일만 stage.
 2. `git commit -m "feat(v12.X): ..."` — Conventional + 한글 본문.
 3. `git push origin main` → Vercel 자동 빌드 + 별칭 alias 갱신.
-4. `vercel inspect saeukkang-limit-break.vercel.app --scope rhr1109s-projects` 로 status `● Ready` 확인.
+4. `vercel inspect limit-break-shrimp-powered-pigeon.vercel.app --scope rhr1109s-projects` 로 status `● Ready` 확인.
