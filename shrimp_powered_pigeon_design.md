@@ -1198,10 +1198,10 @@ PC(≥768×700)에서는 오버레이 컨텐츠가 수직 중앙 정렬된다 (`
 ## 17. 파일 구조
 
 ```
-saeukkang-limit-break/
-├── index.html              # 본 게임 단일 파일 (~1.0MB, v12.36g EN i18n — KO 잔존 0건 보증)
-├── SAEUKKANG_DESIGN.md     # 본 문서
-├── STATUS.md               # 빌드별 변경 이력
+limit-break-shrimp-powered-pigeon/
+├── index.html                          # 본 게임 단일 파일 (~1.0MB, v12.41 EN i18n — KO 잔존 0건 보증)
+├── shrimp_powered_pigeon_design.md     # 본 문서
+├── STATUS.md                           # 빌드별 변경 이력
 └── README.md
 ```
 

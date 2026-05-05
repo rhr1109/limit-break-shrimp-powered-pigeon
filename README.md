@@ -34,4 +34,4 @@
 
 ## 문서
 
-자세한 게임 디자인은 [SAEUKKANG_DESIGN.md](./SAEUKKANG_DESIGN.md) 참고.
+자세한 게임 디자인은 [shrimp_powered_pigeon_design.md](./shrimp_powered_pigeon_design.md) 참고.
